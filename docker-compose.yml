@@ -1,0 +1,94 @@
+services:
+  foundation-postgres:
+    image: postgres
+    restart: always
+    container_name: foundation-postgres
+    env_file:
+      - .env
+    volumes:
+      - foundation-postgres:/var/lib/postgresql/data
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    networks:
+      - foundation-network
+
+  foundation-redis:
+    image: redis
+    container_name: foundation-redis
+    env_file:
+      - .env
+    ports:
+      - '${REDIS_PORT}:6379'
+    volumes:
+      - foundation-redis:/data
+    networks:
+      - foundation-network
+
+#  foundation-elasticsearch:
+#    image: elasticsearch:8.14.3
+#    container_name: foundation-elasticsearch
+#    env_file:
+#      - .env
+#    environment:
+#      - discovery.type=single-node
+#      - xpack.security.enabled=false
+#      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+#      - http.cors.enabled=true
+#      - http.cors.allow-origin=*
+#    ports:
+#      - '${ELASTICSEARCH_PORT}:9200'
+#      - '${ELASTICSEARCH_TP}:9300'
+#    volumes:
+#      - foundation-elasticsearch:/usr/share/elasticsearch/data
+#    networks:
+#      - foundation-network
+
+  foundation-meilisearch:
+    image: getmeili/meilisearch
+    container_name: foundation-meilisearch
+    env_file:
+      - .env
+    environment:
+      - http_proxy
+      - https_proxy
+      - MEILI_MASTER_KEY=${MEILI_API_KEY:-masterKey}
+      - MEILI_NO_ANALYTICS=${MEILI_NO_ANALYTICS:-true}
+      - MEILI_ENV=${MEILI_ENV:-development}
+      - MEILI_LOG_LEVEL
+      - MEILI_DB_PATH=${MEILI_DB_PATH:-/data.ms}
+    ports:
+      - '${MEILI_PORT}:7700'
+    networks:
+      - foundation-network
+    volumes:
+      - ./data.ms:/data.ms
+    restart: unless-stopped
+
+  # treasure-street-nest:
+  #   image: node:18-alpine
+  #   container_name: treasure-street-nest
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile
+
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '15700:3000'
+  #   depends_on:
+  #     - treasure-street-postgres
+  #     - treasure-street-redis
+  #     - treasure-street-elasticsearch
+  #   networks:
+  #     - treasure-street-network
+  #   volumes:
+  #     - ./:/app
+
+volumes:
+  foundation-postgres:
+  foundation-redis:
+  foundation-elasticsearch:
+
+networks:
+  foundation-network:
