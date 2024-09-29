@@ -1,7 +1,7 @@
 {
-  "name": "@treasure-street/backend",
+  "name": "@h5-editor/api",
   "version": "1.0.0",
-  "description": "Backend for Treasure Street application",
+  "description": "API for h5 editor application",
   "author": "i5NWkv9NH1",
   "private": false,
   "license": "MIT",
@@ -27,6 +27,7 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
+    "@alicloud/dysmsapi20170525": "3.0.0",
     "@as-integrations/fastify": "^2.1.1",
     "@elastic/elasticsearch": "^8.14.0",
     "@faker-js/faker": "^8.4.1",
@@ -49,6 +50,7 @@
     "cache-manager": "^5.7.6",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "dayjs": "^1.11.13",
     "ioredis": "^5.4.1",
     "js-yaml": "^4.1.0",
     "jsonwebtoken": "^9.0.2",

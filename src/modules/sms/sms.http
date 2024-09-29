@@ -1,0 +1,10 @@
+###
+POST http://localhost:3200/api/sms/send
+
+###
+POST http://localhost:3200/api/sms/check
+Content-Type: application/json
+
+{
+  "phone": "15697544151"
+}

@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common'
+import { Module } from '@nestjs/common';
+import { SmsModule } from './sms/sms.module';
 
 @Module({
-  imports: []
+  imports: [SmsModule]
 })
-export class BusinessModule {}
+export class BusinessModule { }
